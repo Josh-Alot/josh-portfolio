@@ -1,0 +1,6 @@
+contract/.env
+contract/out/
+contract/reports/
+contract/cache/
+contract/lib/*
+contract/.gas-snapshot
