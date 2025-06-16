@@ -4,14 +4,24 @@ out = "out"
 libs = ["lib"]
 remappings = ["@openzeppelin/=lib/openzeppelin-contracts/"]
 
-# RPC endpoints para diferentes redes
+# Optimization Configs
+optimizer_runs = 200
+via_ir = false
+
+# RPC endpoints for different networks
 [rpc_endpoints]
 base_sepolia = "https://sepolia.base.org"
 base = "https://mainnet.base.org"
+base_goerli = "https://goerli.base.org"
 
-# Configuração para verificação de contratos
+# Contracts check configuration
 [etherscan]
-base_sepolia = { key = "${BASESCAN_API_KEY}" }
-base = { key = "${BASESCAN_API_KEY}" }
+base_sepolia = { key = "${BASESCAN_API_KEY}", url = "https://api-sepolia.basescan.org/api" }
+base = { key = "${BASESCAN_API_KEY}", url = "https://api.basescan.org/api" }
+
+# Network specific configs
+[profile.base]
+optimizer_runs = 1000
+via_ir  true
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options 
