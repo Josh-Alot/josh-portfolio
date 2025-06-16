@@ -2,10 +2,10 @@
 pragma solidity ^0.8.30;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/utils/Base64.sol";
 
 /**
  * @title Josh Business Card NFT
@@ -13,10 +13,10 @@ import "@openzeppelin/contracts/utils/Strings.sol";
  * @notice This contract is a simple ERC721 token for the purpose of mint my Business Card NFT.
  * @dev This contract is used to represent an ERC721 Token created to mint an NFT.
  */
-contract JoshBusinessCardNFT is ERC721, ERC721URIStorage, Ownable {
-    IERC20 public paymentToken;
+contract JoshBusinessCardNFT is ERC721, Ownable {
+    IERC20 public immutable paymentToken;
     uint256 public tokenPrice = 100 * 10**18; // 100 PTK por NFT
-    uint256 private _tokenIdCounter;
+    uint256 private _currentIndex;
 
     string public constant JOSH_NAME = "Josh";
     string public constant JOSH_TITLE = "Frontend & Web3 Developer";
@@ -41,10 +41,13 @@ contract JoshBusinessCardNFT is ERC721, ERC721URIStorage, Ownable {
         paymentToken = IERC20(_paymentToken);
     }
 
-    function mintBusinessCard(string memory recipientName, string memory personalMessage) external {
+    function mintBusinessCard(string calldata recipientName, string calldata personalMessage) external {
         require(paymentToken.transferFrom(msg.sender, owner(), tokenPrice), "Payment failed");
 
-        uint256 tokenId = _tokenIdCounter++;
+        uint256 tokenId;
+        unchecked {
+            tokenId = _currentIndex++;
+        }
         _safeMint(msg.sender, tokenId);
 
         businessCards[tokenId] = BusinessCardMetadata({
@@ -54,23 +57,18 @@ contract JoshBusinessCardNFT is ERC721, ERC721URIStorage, Ownable {
             minter: msg.sender
         });
 
-        string memory uri = generateTokenURI(tokenId);
-        _setTokenURI(tokenId, uri);
-
         emit BusinessCardMinted(tokenId, msg.sender, recipientName);
     }
 
-    function generateTokenURI(uint256 tokenId) internal view returns (string memory) {
-        BusinessCardMetadata memory metadata = businessCards[tokenId];
-        
-        string memory description = bytes(metadata.personalMessage).length > 0
-            ? string(abi.encodePacked("Josh's digital business card for ", metadata.recipientName, ". Personal message: ", metadata.personalMessage))
-            : string(abi.encodePacked("Josh's digital business card for ", metadata.recipientName));
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
+        _requireOwned(tokenId);
+        BusinessCardMetadata storage metadata = businessCards[tokenId];
 
         string memory json = string(abi.encodePacked(
             '{"name": "', JOSH_NAME, ' - Business Card #', Strings.toString(tokenId), '",',
-            '"description": "', description, '",',
-            '"image": "https://your-portfolio-domain.com/business-card-image.png",',
+            '"description": "', bytes(metadata.personalMessage).length > 0 ? string(abi.encodePacked()) : 
+                string(abi.encodePacked("Josh's digital business card for ", metadata.recipientName)), '",',
+            '"image": "https://your-portfolio-domain.com/business-card-image.png",', // TODO: get some random color for the background
             '"external_url": "', JOSH_PORTFOLIO, '",',
             '"attributes": [',
                 '{"trait_type": "Name", "value": "', JOSH_NAME, '"},',
@@ -84,63 +82,14 @@ contract JoshBusinessCardNFT is ERC721, ERC721URIStorage, Ownable {
             ']}'
         ));
 
-        return string(abi.encodePacked("data:application/json;base64,", _base64Encode(bytes(json))));
+        return string(abi.encodePacked("data:application/json;base64,", Base64.encode(bytes(json))));
+    }
+
+    function getTotalSupply() external view returns (uint256) {
+        return _currentIndex;
     }
 
     function setTokenPrice(uint256 _newPrice) external onlyOwner {
         tokenPrice = _newPrice;
-    }
-
-    function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
-        return super.tokenURI(tokenId);
-    }
-
-    function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721URIStorage) returns (bool) {
-        return super.supportsInterface(interfaceId);
-    }
-
-    function _base64Encode(bytes memory data) internal pure returns (string memory) {
-        string memory base64Table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-        if(data.length == 0) return "";
-
-        string memory result = new string(4 * ((data.length + 2) / 3));
-        bytes memory resultInBytes = bytes(result);
-
-        uint256 i = 0;
-        uint256 j = 0;
-
-        for(; i + 3 <= data.length; i += 3) {
-            uint256 a = uint256(uint8(data[i]));
-            uint256 b = uint256(uint8(data[i + 1]));
-            uint256 c = uint256(uint8(data[i + 2]));
-
-            uint256 bitmap = (a << 16) | (b << 8) | c;
-
-            resultInBytes[j++] = bytes1(uint8(bytes(base64Table)[bitmap >> 18]));
-            resultInBytes[j++] = bytes1(uint8(bytes(base64Table)[(bitmap >> 12) & 63]));
-            resultInBytes[j++] = bytes1(uint8(bytes(base64Table)[(bitmap >> 6) & 63]));
-            resultInBytes[j++] = bytes1(uint8(bytes(base64Table)[bitmap & 63]));
-        }
-
-        if (data.length % 3 != 0) {
-            uint256 a = uint256(uint8(data[i]));
-            uint256 b = i + 1 < data.length ? uint256(uint8(data[i + 1])) : 0;
-
-            uint256 bitmap = (a << 16) | (b << 8);
-
-            resultInBytes[j++] = bytes1(uint8(bytes(base64Table)[bitmap >> 18]));
-            resultInBytes[j++] = bytes1(uint8(bytes(base64Table)[(bitmap >> 12) & 63]));
-
-            if (data.length % 3 == 2) {
-                resultInBytes[j++] = bytes1(uint8(bytes(base64Table)[(bitmap >> 6) & 63]));
-            } else {
-                resultInBytes[j++] = "=";
-            }
-
-            resultInBytes[j++] = "=";
-        }
-
-        return result;
     }
 }
