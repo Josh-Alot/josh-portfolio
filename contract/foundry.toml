@@ -22,6 +22,6 @@ base = { key = "${BASESCAN_API_KEY}", url = "https://api.basescan.org/api" }
 # Network specific configs
 [profile.base]
 optimizer_runs = 1000
-via_ir  true
+via_ir = true
 
-# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options 
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
