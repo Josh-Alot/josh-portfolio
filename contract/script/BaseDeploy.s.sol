@@ -4,8 +4,9 @@ pragma solidity ^0.8.30 < 0.9.0;
 import "forge-std/Script.sol";
 
 contract BaseDeployScript is Script {
-    JoshPortfolioToken paymentToken;
-    JoshBusinessCardNFT nft;
+    JoshPortfolioToken public paymentToken;
+    JoshBusinessCardNFT public nft;
+    uint256 public constant INITIAL_TOKEN_TRANSFER = 10_000 * 10**18;
 
     function run() public {
         address deployer = vm.addr(vm.envUint("PRIVATE_KEY")); // gets the private key from the .env file
@@ -13,11 +14,15 @@ contract BaseDeployScript is Script {
         console.log("=== JOSH PORTFOLIO DEPLOY ON BASE ===");
         console.log("Deployer: ", deployer);
         console.log("Deployer balance: ", deployer.balance);
+        console.log("Chain ID:", block.chainid);
+
+        // Checks if we have enough ETH
+        require(deployer.balance > 0.01 ether, "Insufficient ETH for deployment");
 
         vm.startBroadcast();
 
         // 1. Deploying the Josh Portfolio Token Contract
-        console.log("Deploying Josh Portfolio Token Contract...");
+        console.log("\nDeploying Josh Portfolio Token Contract...");
         paymentToken = new JoshPortfolioToken();
         console.log("✅ Josh Portfolio Token Contract deployed at: ", address(paymentToken));
 

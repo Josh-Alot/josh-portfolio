@@ -10,14 +10,22 @@ via_ir = false
 
 # RPC endpoints for different networks
 [rpc_endpoints]
-base_sepolia = "https://sepolia.base.org"
-base = "https://mainnet.base.org"
-base_goerli = "https://goerli.base.org"
+base_sepolia = "https://base-sepolia.g.alchemy.com/v2/IKuWUIfOxsfG2DFNZOmnt"
+base = "https://base-mainnet.g.alchemy.com/v2/IKuWUIfOxsfG2DFNZOmnt"
 
 # Contracts check configuration
-[etherscan]
-base_sepolia = { key = "${BASESCAN_API_KEY}", url = "https://api-sepolia.basescan.org/api" }
-base = { key = "${BASESCAN_API_KEY}", url = "https://api.basescan.org/api" }
+[profile.base_sepolia]
+optimizer_runs = 800
+via_ir = true
+# Gas settings for the testnet
+gas_limit = 30000000
+gas_price = 1000000000  # 1 gwei
+priority_gas_price = 1000000000
+
+# Production configs
+[profile.base]
+optimizer_runs = 1000
+via_ir = true
 
 # Network specific configs
 [profile.base]
