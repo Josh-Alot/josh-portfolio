@@ -3,4 +3,5 @@ contract/out/
 contract/reports/
 contract/cache/
 contract/lib/
+contract/broadcast
 contract/.gas-snapshot
