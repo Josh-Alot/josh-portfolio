@@ -2,6 +2,8 @@
 pragma solidity ^0.8.30 < 0.9.0;
 
 import "forge-std/Script.sol";
+import "../src/JoshPortfolioToken.sol";
+import "../src/JoshBusinessCardNFT.sol";
 
 contract BaseDeployScript is Script {
     JoshPortfolioToken public paymentToken;
@@ -24,18 +26,18 @@ contract BaseDeployScript is Script {
         // 1. Deploying the Josh Portfolio Token Contract
         console.log("\nDeploying Josh Portfolio Token Contract...");
         paymentToken = new JoshPortfolioToken();
-        console.log("✅ Josh Portfolio Token Contract deployed at: ", address(paymentToken));
+        console.log("\u2705 Josh Portfolio Token Contract deployed at: ", address(paymentToken));
 
         // 2. Deploying the Josh Business Card NFT Contract
         console.log("Deploying Josh Business Card NFT Contract...");
         nft = new JoshBusinessCardNFT(address(paymentToken));
-        console.log("✅ Josh BusinessCard NFT Contract deployed at: ", address(nft));
+        console.log("\u2705 Josh BusinessCard NFT Contract deployed at: ", address(nft));
 
         // 3. Testing the token deployed
         console.log("Setting up initial configurations... ");
         uint256 testTokens = 10_000 * 10**18;
         paymentToken.transfer(deployer, testTokens);
-        console.log("✅ Transferred", testTokens / 10**18, "JPTK tokens to deployer");
+        console.log("\u2705 Transferred", testTokens / 10**18, "JPTK tokens to deployer");
 
         vm.stopBroadcast();
 
