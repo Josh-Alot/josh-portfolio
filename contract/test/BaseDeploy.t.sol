@@ -9,7 +9,7 @@ contract BaseDeployTest is Script {
     function run() external {
         address tokenAddress = vm.envAddress("TOKEN_ADDRESS");
         address nftAddress = vm.envAddress("NFT_ADDRESS");
-        uint256 privateKey = vm.envAddress("PRIVATE_KEY");
+        uint256 privateKey = vm.envUint("PRIVATE_KEY");
 
         JoshPortfolioToken token = JoshPortfolioToken(tokenAddress);
         JoshBusinessCardNFT nft = JoshBusinessCardNFT(nftAddress);

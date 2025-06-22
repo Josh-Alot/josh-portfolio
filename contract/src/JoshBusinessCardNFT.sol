@@ -22,8 +22,7 @@ contract JoshBusinessCardNFT is ERC721, Ownable {
     string public constant JOSH_TITLE = "Frontend & Web3 Developer";
     string public constant JOSH_PORTFOLIO = "https://josh-alot.sh";
     string public constant JOSH_GITHUB = "https://github.com/Josh-Alot";
-    string public constant JOSH_LINKEDIN =
-        "https://linkedin.com/in/lucasmendes2020";
+    string public constant JOSH_LINKEDIN = "https://linkedin.com/in/lucasmendes2020";
     string public constant JOSH_EMAIL = "josh@example.com";
     string public constant JOSH_BIO =
         "Frontend developer with passion for Web3 technology";
