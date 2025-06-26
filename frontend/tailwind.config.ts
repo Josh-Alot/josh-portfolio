@@ -29,14 +29,18 @@ const config: Config = {
         },
         background: '#0f172a',
         surface: '#1e293b',
+        text: '#f8fafc',
+        'text-muted': '#94a3b8',
       },
       animation: {
-        'gradient': 'gradient 8s linear infinite',
+        'gradient': 'gradient-animation 15s ease infinite',
         'float': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'gradient-shift': 'gradient-shift 3s ease infinite',
+        'pulse-neon': 'pulse-neon 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
-        gradient: {
+        'gradient-animation': {
           '0%, 100%': {
             'background-size': '200% 200%',
             'background-position': 'left center'
@@ -46,14 +50,32 @@ const config: Config = {
             'background-position': 'right center'
           },
         },
-        float: {
+        'float': {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-20px)' },
+        },
+        'gradient-shift': {
+          '0%, 100%': {
+            'background-position': '0% 50%'
+          },
+          '50%': {
+            'background-position': '100% 50%'
+          },
+        },
+        'pulse-neon': {
+          '0%, 100%': {
+            opacity: '1',
+            'box-shadow': '0 0 20px rgba(99, 102, 241, 0.5)'
+          },
+          '50%': {
+            opacity: '0.8',
+            'box-shadow': '0 0 40px rgba(99, 102, 241, 0.8)'
+          },
         }
       },
       backdropBlur: {
         xs: '2px',
-      }
+      },
     },
   },
   plugins: [],
