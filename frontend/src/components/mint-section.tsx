@@ -86,27 +86,30 @@ export function MintSection() {
   const needsApproval = (allowance || BigInt(0)) < (tokenPrice || parseEther('100'));
 
   return (
-    <section className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section id="nft-cards" className="section-padding">
+      <div className="container-cosmos">
+        {/* Header Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
-            Mint seu Cartão de Visita NFT
+          <h2 className="heading-2 mb-6">
+            <span className="gradient-text-cosmos">Mint Your NFT Business Card</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Crie um cartão de visita digital único e personalizado com suas informações. 
-            Cada NFT é único e pode ser visualizado em qualquer marketplace.
+          <p className="text-body max-w-3xl mx-auto">
+            Create a unique and personalized digital business card with your information. 
+            Each NFT is unique and can be viewed on any marketplace.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        {/* Content Grid */}
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          {/* Mint Form */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
@@ -126,12 +129,13 @@ export function MintSection() {
             />
           </motion.div>
 
+          {/* Preview Card */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="sticky top-8"
+            className="sticky top-24"
           >
             <BusinessCardPreview
               recipientName={recipientName}
@@ -139,6 +143,44 @@ export function MintSection() {
             />
           </motion.div>
         </div>
+
+        {/* Features Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="mt-20"
+        >
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Unique & Personalized",
+                description: "Each NFT is unique and contains your personalized information"
+              },
+              {
+                title: "Verifiable",
+                description: "Authenticity guaranteed by blockchain technology"
+              },
+              {
+                title: "Interoperable",
+                description: "Works on any NFT marketplace"
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="card-cosmos text-center"
+              >
+                <h3 className="heading-3 mb-3">{feature.title}</h3>
+                <p className="text-muted">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,59 +1,93 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Code, Palette, Database, Globe, Zap, Shield, ExternalLink } from 'lucide-react';
+import { Code, Palette, Database, Globe, Zap, Shield, ExternalLink, Star, Users, TrendingUp } from 'lucide-react';
 
 export function PortfolioSection() {
   const skills = [
-    { icon: Code, name: 'Frontend Development', description: 'React, Next.js, TypeScript' },
-    { icon: Palette, name: 'UI/UX Design', description: 'Tailwind CSS, Framer Motion' },
-    { icon: Database, name: 'Backend Development', description: 'Node.js, PostgreSQL' },
-    { icon: Globe, name: 'Web3 Development', description: 'Solidity, Wagmi, RainbowKit' },
-    { icon: Zap, name: 'Performance', description: 'Optimization & Best Practices' },
-    { icon: Shield, name: 'Security', description: 'Smart Contract Security' },
+    { 
+      icon: Code, 
+      name: 'Frontend Development', 
+      description: 'React, Next.js, TypeScript',
+      color: 'from-blue-400 to-cyan-400'
+    },
+    { 
+      icon: Palette, 
+      name: 'UI/UX Design', 
+      description: 'Tailwind CSS, Framer Motion',
+      color: 'from-purple-400 to-pink-400'
+    },
+    { 
+      icon: Database, 
+      name: 'Backend Development', 
+      description: 'Node.js, PostgreSQL',
+      color: 'from-green-400 to-emerald-400'
+    },
+    { 
+      icon: Globe, 
+      name: 'Web3 Development', 
+      description: 'Solidity, Wagmi, RainbowKit',
+      color: 'from-orange-400 to-red-400'
+    },
+    { 
+      icon: Zap, 
+      name: 'Performance', 
+      description: 'Optimization & Best Practices',
+      color: 'from-yellow-400 to-orange-400'
+    },
+    { 
+      icon: Shield, 
+      name: 'Security', 
+      description: 'Smart Contract Security',
+      color: 'from-red-400 to-pink-400'
+    },
   ];
 
   const projects = [
     {
-      title: 'Portfolio Web3',
-      description: 'Portfolio pessoal com integração NFT e Web3',
+      title: 'Web3 Portfolio',
+      description: 'Personal portfolio with NFT and Web3 integration',
       tech: ['Next.js', 'Solidity', 'Wagmi', 'Tailwind'],
-      link: '#'
+      link: '#',
+      stats: { users: '1.2k', rating: '4.9' }
     },
     {
       title: 'NFT Marketplace',
-      description: 'Plataforma completa para compra e venda de NFTs',
+      description: 'Complete platform for buying and selling NFTs',
       tech: ['React', 'Solidity', 'IPFS', 'Web3.js'],
-      link: '#'
+      link: '#',
+      stats: { users: '5.8k', rating: '4.8' }
     },
     {
       title: 'DeFi Dashboard',
-      description: 'Dashboard para monitoramento de protocolos DeFi',
+      description: 'Dashboard for monitoring DeFi protocols',
       tech: ['Vue.js', 'Ethers.js', 'Chart.js', 'API'],
-      link: '#'
+      link: '#',
+      stats: { users: '3.4k', rating: '4.7' }
     }
   ];
 
   return (
-    <section className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section id="portfolio" className="section-padding">
+      <div className="container-cosmos">
         {/* Skills Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
-            Habilidades & Tecnologias
+          <h2 className="heading-2 mb-6">
+            <span className="gradient-text-cosmos">Skills & Technologies</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Especializado em desenvolvimento frontend e tecnologias Web3
+          <p className="text-body max-w-3xl mx-auto">
+            Specialized in frontend development and Web3 technologies
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+        {/* Skills Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
           {skills.map((skill, index) => (
             <motion.div
               key={skill.name}
@@ -61,32 +95,35 @@ export function PortfolioSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="glass rounded-xl p-6 hover:bg-white/10 transition-colors"
+              className="card-cosmos group hover:glass-cosmos-hover transition-all duration-300"
             >
-              <skill.icon className="w-8 h-8 text-primary-400 mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">{skill.name}</h3>
-              <p className="text-gray-400 text-sm">{skill.description}</p>
+              <div className={`w-12 h-12 bg-gradient-to-br ${skill.color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                <skill.icon className="w-6 h-6 text-black" />
+              </div>
+              <h3 className="heading-3 mb-3">{skill.name}</h3>
+              <p className="text-muted">{skill.description}</p>
             </motion.div>
           ))}
         </div>
 
         {/* Projects Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
-            Projetos em Destaque
+          <h2 className="heading-2 mb-6">
+            <span className="gradient-text-cosmos">Featured Projects</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Alguns dos projetos que desenvolvi com foco em Web3 e frontend
+          <p className="text-body max-w-3xl mx-auto">
+            Some of the projects I've developed focusing on Web3 and frontend
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Projects Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
           {projects.map((project, index) => (
             <motion.div
               key={project.title}
@@ -94,28 +131,41 @@ export function PortfolioSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="glass rounded-xl p-6 hover:bg-white/10 transition-all duration-300 hover:scale-105"
+              className="card-cosmos group hover:glass-cosmos-hover transition-all duration-300"
             >
-              <h3 className="text-xl font-semibold text-white mb-3">{project.title}</h3>
-              <p className="text-gray-400 text-sm mb-4">{project.description}</p>
+              <h3 className="heading-3 mb-3">{project.title}</h3>
+              <p className="text-muted text-sm mb-4">{project.description}</p>
               
+              {/* Tech Stack */}
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.tech.map((tech) => (
                   <span
                     key={tech}
-                    className="px-2 py-1 bg-primary-500/20 text-primary-400 text-xs rounded-full"
+                    className="px-3 py-1 bg-cyan-400/10 text-cyan-400 text-xs rounded-full border border-cyan-400/20"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
 
+              {/* Stats */}
+              <div className="flex items-center justify-between mb-4 text-sm">
+                <div className="flex items-center text-white/60">
+                  <Users className="w-4 h-4 mr-1" />
+                  {project.stats.users}
+                </div>
+                <div className="flex items-center text-white/60">
+                  <Star className="w-4 h-4 mr-1 text-yellow-400" />
+                  {project.stats.rating}
+                </div>
+              </div>
+
               <a
                 href={project.link}
-                className="inline-flex items-center text-primary-400 hover:text-primary-300 text-sm font-medium transition-colors"
+                className="inline-flex items-center text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors group/link"
               >
-                Ver projeto
-                <ExternalLink className="w-4 h-4 ml-1" />
+                View project
+                <ExternalLink className="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform" />
               </a>
             </motion.div>
           ))}
@@ -123,32 +173,35 @@ export function PortfolioSection() {
 
         {/* CTA Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mt-20"
+          className="text-center"
         >
-          <div className="glass rounded-2xl p-8 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Vamos trabalhar juntos?
+          <div className="card-cosmos max-w-2xl mx-auto">
+            <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full mx-auto mb-6 flex items-center justify-center">
+              <TrendingUp className="w-8 h-8 text-black" />
+            </div>
+            <h3 className="heading-3 mb-4">
+              Let's work together?
             </h3>
-            <p className="text-gray-300 mb-6">
-              Estou sempre aberto a novos projetos e colaborações interessantes.
-              Entre em contato e vamos criar algo incrível!
+            <p className="text-muted mb-8">
+              I'm always open to new projects and interesting collaborations.
+              Get in touch and let's create something amazing!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="mailto:josh@example.com"
-                className="px-6 py-3 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-lg font-semibold hover:from-primary-600 hover:to-secondary-600 transition-all duration-200 transform hover:scale-105"
+                className="btn-cosmos"
               >
-                Enviar Email
+                Send Email
               </a>
               <a
                 href="https://linkedin.com/in/lucasmendes2020"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3 glass rounded-lg font-semibold hover:bg-white/20 transition-colors"
+                className="btn-cosmos-secondary"
               >
                 LinkedIn
               </a>

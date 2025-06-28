@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { formatEther } from 'viem';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { User, MessageSquare, Coins } from 'lucide-react';
+import { User, MessageSquare, Coins, Wallet } from 'lucide-react';
 
 interface MintFormProps {
   recipientName: string;
@@ -38,10 +38,13 @@ export function MintForm({
 
   if (!isConnected) {
     return (
-      <div className="glass rounded-2xl p-8 text-center">
-        <h3 className="text-2xl font-bold mb-4">Conecte sua Carteira</h3>
-        <p className="text-gray-400 mb-6">
-          Para mintar seu cartão de visita NFT, você precisa conectar sua carteira primeiro.
+      <div className="card-cosmos text-center">
+        <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full mx-auto mb-6 flex items-center justify-center">
+          <Wallet className="w-8 h-8 text-black" />
+        </div>
+        <h3 className="heading-3 mb-4">Connect Your Wallet</h3>
+        <p className="text-muted mb-8">
+          To mint your NFT business card, you need to connect your wallet first.
         </p>
         <ConnectButton />
       </div>
@@ -52,51 +55,53 @@ export function MintForm({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass rounded-2xl p-8"
+      className="card-cosmos"
     >
-      <h3 className="text-2xl font-bold mb-6 gradient-text">Informações do Cartão</h3>
+      <h3 className="heading-3 mb-8">
+        <span className="gradient-text-cosmos">Card Information</span>
+      </h3>
       
       <div className="space-y-6">
         {/* Recipient Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            <User className="inline w-4 h-4 mr-2" />
-            Nome do Destinatário
+          <label className="block text-sm font-medium text-white/80 mb-3 flex items-center">
+            <User className="w-4 h-4 mr-2 text-cyan-400" />
+            Recipient Name
           </label>
           <input
             type="text"
             value={recipientName}
             onChange={(e) => setRecipientName(e.target.value)}
-            placeholder="Digite seu nome"
-            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-white placeholder-gray-400"
+            placeholder="Enter your name"
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-white placeholder-white/40 transition-all duration-200"
             maxLength={50}
           />
         </div>
 
         {/* Personal Message */}
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            <MessageSquare className="inline w-4 h-4 mr-2" />
-            Mensagem Personalizada (Opcional)
+          <label className="block text-sm font-medium text-white/80 mb-3 flex items-center">
+            <MessageSquare className="w-4 h-4 mr-2 text-cyan-400" />
+            Personal Message (Optional)
           </label>
           <textarea
             value={personalMessage}
             onChange={(e) => setPersonalMessage(e.target.value)}
-            placeholder="Deixe uma mensagem personalizada..."
+            placeholder="Leave a personalized message..."
             rows={3}
-            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-white placeholder-gray-400 resize-none"
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-white placeholder-white/40 resize-none transition-all duration-200"
             maxLength={200}
           />
         </div>
 
         {/* Token Balance & Price */}
-        <div className="glass rounded-lg p-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-gray-400">Preço do NFT:</span>
+        <div className="glass-cosmos rounded-lg p-4">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-sm text-white/60">NFT Price:</span>
             <span className="text-sm font-medium text-white">{price} JPTK</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-400">Seu saldo:</span>
+            <span className="text-sm text-white/60">Your balance:</span>
             <span className={`text-sm font-medium ${hasEnoughBalance ? 'text-green-400' : 'text-red-400'}`}>
               {balance} JPTK
             </span>
@@ -107,38 +112,38 @@ export function MintForm({
         <button
           onClick={onMint}
           disabled={!recipientName || !hasEnoughBalance || isApproving || isMinting}
-          className={`w-full py-4 px-6 rounded-lg font-semibold transition-all duration-200 ${
+          className={`w-full py-4 px-6 rounded-lg font-semibold transition-all duration-300 ${
             !recipientName || !hasEnoughBalance || isApproving || isMinting
-              ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-              : 'bg-gradient-to-r from-primary-500 to-secondary-500 hover:from-primary-600 hover:to-secondary-600 text-white transform hover:scale-105'
+              ? 'bg-white/10 text-white/40 cursor-not-allowed'
+              : 'btn-cosmos'
           }`}
         >
           {isApproving ? (
             <div className="flex items-center justify-center">
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-              Aprovando...
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-current mr-3"></div>
+              Approving...
             </div>
           ) : isMinting ? (
             <div className="flex items-center justify-center">
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-              Mintando NFT...
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-current mr-3"></div>
+              Minting NFT...
             </div>
           ) : needsApproval ? (
             <div className="flex items-center justify-center">
               <Coins className="w-5 h-5 mr-2" />
-              Aprovar e Mintar NFT
+              Approve & Mint NFT
             </div>
           ) : (
             <div className="flex items-center justify-center">
               <Coins className="w-5 h-5 mr-2" />
-              Mintar NFT
+              Mint NFT
             </div>
           )}
         </button>
 
         {!hasEnoughBalance && (
           <p className="text-red-400 text-sm text-center">
-            Saldo insuficiente. Você precisa de pelo menos {price} JPTK.
+            Insufficient balance. You need at least {price} JPTK.
           </p>
         )}
       </div>
