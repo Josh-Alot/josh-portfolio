@@ -1,0 +1,22 @@
+.about-me-container {
+    height: 30vh;
+    background-color: black;
+    color: white;
+
+    display: flex;
+    align-items: center;
+
+    &--flex-left {
+        &--title {
+            font-size: 4rem;
+        }
+    }
+
+    &--flex-right {
+        flex-basis: 40%;
+
+        &--description {
+            font-size: 1.3rem;
+        }
+    }
+}

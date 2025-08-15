@@ -1,5 +1,8 @@
+import Home from "./pages/Home";
+import "./index.scss";
+
 const App = () => {
-  return <>Hello, this is my new portfolio!</>;
+  return <Home></Home>;
 };
 
 export default App;
