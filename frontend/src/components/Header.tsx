@@ -23,14 +23,16 @@ export default function Header({ onProvider }: { onProvider: (p: BrowserProvider
   },[])
 
   return (
-    <header className="header container">
-      <div className="brand">Josh<span className="dot">.</span> Portfolio</div>
-      <nav className="nav">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#mint">Mint</a>
-      </nav>
-      <button className="button" onClick={connect}>{account ? account.slice(0,6)+'...'+account.slice(-4) : 'Connect Wallet'}</button>
+    <header className="header">
+      <div className="container header-inner">
+        <div className="brand">Josh<span className="dot">.</span> Portfolio</div>
+        <nav className="nav">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#mint">Mint</a>
+        </nav>
+        <button className="button" onClick={connect}>{account ? account.slice(0,6)+'...'+account.slice(-4) : 'Connect Wallet'}</button>
+      </div>
     </header>
   )
 }
